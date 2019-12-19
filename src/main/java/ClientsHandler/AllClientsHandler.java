@@ -1,5 +1,7 @@
 package ClientsHandler;
 
+import model.Room;
+
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -9,6 +11,7 @@ public class AllClientsHandler {
     //выяснил, CopyOnWriteArraySet написан на CopyOnWriteArrayList, ха-ха смешно(нет);
     private List<ClientHandler> clients;
     static private AllClientsHandler me;
+    static private Room[] rooms;
 
     private AllClientsHandler() {
         //не очень понимаю как работает copyAndWriteList
@@ -20,6 +23,8 @@ public class AllClientsHandler {
         //Верно ли что тогда мы храним квадрат ссылок?
         //для оптимизаций, он наверняка должен удалять некоторые не нужные
         //состояния, это так?
+        rooms = new Room[30];
+
         clients = new CopyOnWriteArrayList<>();
     }
 
@@ -29,6 +34,22 @@ public class AllClientsHandler {
         }
         return me;
     }
+
+    public static void addUserInRoom(ClientHandler user, int room) {
+        if (rooms[room] == null) rooms[room] = new Room();
+        rooms[room].setUser(user);
+    }
+
+    public static int getCountUserInRoom(int room) {
+        return rooms[room].getSizeUsers();
+    }
+
+    public static Room getRoomsI(int i) {
+        return rooms[i];
+    }
+
+
+
 
 
 
